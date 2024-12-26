@@ -1,0 +1,62 @@
+/* 
+ * Program: Number Guessing Game
+ * Author: Jattin Chauhan
+ * Description: A simple C program where the user guesses a randomly 
+ * generated number within a specified range. The program provides hints 
+ * to guide the user and displays all their attempts after a correct guess.
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int ub, lb, an, guess;
+    int guesses[100];
+    int attempts = 0;
+
+    // Input: Upper and Lower bounds
+    printf("Enter the upper bound: ");
+    scanf("%d", &ub);
+    printf("Enter the lower bound: ");
+    scanf("%d", &lb);
+
+    // Validate bounds
+    if (ub <= lb) {
+        printf("Error: Upper bound must be greater than lower bound.\n");
+        return 1; // Exit the program with an error code
+    }
+
+    // Generate a random number in the range [lb, ub]
+    srand(time(0));
+    an = rand() % (ub - lb + 1) + lb;
+
+    // Main game loop
+    printf("\nA random number has been generated between %d and %d.\n", lb, ub);
+    do {
+        printf("\nGuess the number: ");
+        scanf("%d", &guess);
+
+        // Record the guess
+        guesses[attempts] = guess;
+        attempts++;
+
+        // Provide feedback
+        if (guess < an) {
+            printf("Hint: Try a higher number.\n");
+        } else if (guess > an) {
+            printf("Hint: Try a lower number.\n");
+        } else {
+            // Correct guess
+            printf("\nCongratulations! You've guessed the correct number: %d\n", an);
+            printf("Your guesses were: ");
+            for (int i = 0; i < attempts; i++) {
+                printf("%4d", guesses[i]);
+            }
+            printf("\n");
+        }
+    } while (guess != an);
+
+    return 0; // Exit the program successfully
+}
+
